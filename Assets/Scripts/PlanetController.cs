@@ -9,7 +9,8 @@ public class PlanetController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _rigidBody = GetComponent<Rigidbody>();
+
+        
     }
 
     // Update is called once per frame
@@ -19,7 +20,11 @@ public class PlanetController : MonoBehaviour
     void FixedUpdate () {
         // Rotate the planet around its y axis
         Quaternion rotation = Quaternion.AngleAxis(1, Vector3.up);
-        _rigidBody.MoveRotation(rotation * _rigidBody.rotation);
+
+        if (_rigidBody != null) {
+          _rigidBody.MoveRotation(rotation * _rigidBody.rotation);
+
+        }
     }
     
 }

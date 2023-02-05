@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float throttleForce = 2f;
+    public float throttleForce = 10f;
     public ParticleSystem Explosion;
     public ParticleSystem Trail;
 

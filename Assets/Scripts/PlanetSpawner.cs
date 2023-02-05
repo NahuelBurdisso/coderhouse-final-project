@@ -30,12 +30,22 @@ public class PlanetSpawner : MonoBehaviour
         randomPosition.y = 0;
 
         // Get a random planet from the pool
-        GameObject planet = ObjectPooler.SharedInstance.GetPooledObject();
+        GameObject planet = ObjectPooler.SharedInstance.GetPooledObject("Planet");
 
+        if (planet == null)
+        {
+            Debug.LogWarning("No planet found in the pool");
+            return;
+        }
+
+        planet.transform.parent = transform;
+
+
+        // Set the planet's position to a random position calculated using the planet spawner position and the spawn radius
         Vector3 minSpawnRadius = transform.position * 20f;
         Vector3 maxSpawnRadius = transform.position * spawnRadius;
 
-        planet.transform.position =  new Vector3(Random.Range(minSpawnRadius.x, maxSpawnRadius.x), 0 , Random.Range(minSpawnRadius.z, maxSpawnRadius.z));
+        planet.transform.position = new Vector3(Random.Range(minSpawnRadius.x, maxSpawnRadius.x), 0, Random.Range(minSpawnRadius.z, maxSpawnRadius.z));
 
         // Activate the planet
         planet.SetActive(true);
