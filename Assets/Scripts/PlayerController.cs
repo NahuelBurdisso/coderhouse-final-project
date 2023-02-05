@@ -6,9 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float throttleForce = 2f;
     public ParticleSystem Explosion;
-    public ParticleSystem BackTrailLeft;
-    public ParticleSystem BackTrailRight;
-    public ParticleSystem BackgroundStars;
+    public ParticleSystem Trail;
 
     private Rigidbody _rigidBody;
 
@@ -17,14 +15,10 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
-      Debug.Log(BackgroundStars.transform.position);
-      Debug.Log(transform.position);  
 
       if (Input.GetKeyDown(KeyCode.Space))
       {
-      BackgroundStars.transform.Translate(BackgroundStars.transform.position * Time.deltaTime * 1f);
-        BackTrailLeft.Play();
-        BackTrailRight.Play();
+        Trail.Play();
         _rigidBody.AddForce(transform.forward * throttleForce, ForceMode.Impulse);
       }
 
