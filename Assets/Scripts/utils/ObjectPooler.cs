@@ -42,10 +42,6 @@ public class ObjectPooler : MonoBehaviour
                 // Create a new object from the prefab
                 GameObject obj = Instantiate(pool.prefab);
 
-                if (pool.tag == "Planet") {
-                  obj.GetComponent<Planet>().GeneratePlanet();
-                };
-
                 // Deactivate the object
                 obj.SetActive(false);
                 // Add the object to the queue
@@ -65,8 +61,6 @@ public class ObjectPooler : MonoBehaviour
     // Get a pooled object from the dictionary
     public GameObject GetPooledObject(string tag)
     {
-        Debug.Log("poolDictionary: " + poolDictionary);
-        Debug.Log("tag: " + tag);
         // Check if the dictionary contains the tag
         if (!poolDictionary.ContainsKey(tag))
         {

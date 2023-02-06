@@ -12,8 +12,8 @@ Material:
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -72,14 +72,14 @@ Material:
     - _Nebular1Strength: 0.354
     - _Nebular1scale: 1
     - _Nebular2Strength: 1
-    - _NumStars: 0.509
+    - _NumStars: 0.28
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Seed: 900
+    - _Seed: 901.82
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Sunsize: 0.165
+    - _Sunsize: 0.1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
@@ -88,9 +88,9 @@ Material:
     - _Color4: {r: 0.107794285, g: 0, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Nebular: {r: 0.245283, g: 0.08214667, b: 0.08214667, a: 0}
-    - _Nebular1ColorMain: {r: 0.1856521, g: 0.7176471, b: 0.08627451, a: 0}
-    - _Nebular1ColorMid: {r: 0.8709545, g: 1, b: 0.7216981, a: 0}
-    - _Nebular2Color1: {r: 0.049405575, g: 0, b: 1, a: 0}
+    - _Nebular1ColorMain: {r: 0.043012172, g: 0.022249907, b: 0.9433962, a: 0}
+    - _Nebular1ColorMid: {r: 0.8831016, g: 0.0039215684, b: 0.94509804, a: 0}
+    - _Nebular2Color1: {r: 0, g: 0, b: 0, a: 0}
     - _Nebular2Color2: {r: 0, g: 0.9388056, b: 1, a: 1}
     - _StarColor: {r: 1, g: 0, b: 0, a: 0}
     - _StarColor1: {r: 0.995312, g: 1, b: 0.7783019, a: 0}

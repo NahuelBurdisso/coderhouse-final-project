@@ -5,13 +5,17 @@ using UnityEngine;
 // Use the ObjectPooler to spawn a random planet
 public class PlanetSpawner : MonoBehaviour
 {
-    public float spawnRadius = 100f;
+    public float spawnRadius;
 
-    public int numberOfActivePlanets = 10;
+    public int numberOfActivePlanets;
+
+    private Vector3[] spawnPosition;
 
     // Start is called before the first frame update
     void Start()
     {
+        spawnPosition = new Vector3[numberOfActivePlanets];
+
         for (int i = 0; i < numberOfActivePlanets; i++)
         {
             SpawnPlanet();
@@ -25,10 +29,6 @@ public class PlanetSpawner : MonoBehaviour
 
     void SpawnPlanet()
     {
-        // Get a random position inside a sphere
-        Vector3 randomPosition = Random.insideUnitSphere * spawnRadius;
-        randomPosition.y = 0;
-
         // Get a random planet from the pool
         GameObject planet = ObjectPooler.SharedInstance.GetPooledObject("Planet");
 
@@ -38,19 +38,41 @@ public class PlanetSpawner : MonoBehaviour
             return;
         }
 
-        planet.transform.parent = transform;
+        // Set the position of the planet using the planet spawnner position as the center and the spawn radius 
+        // to get a random position inside a sphere starting from there but always maintaining the same y position in 0
+        Vector3 randomPosition = new Vector3(Random.Range(-spawnRadius, spawnRadius), 0, Random.Range(-spawnRadius, spawnRadius)) + transform.position;
 
+        // make sure the planet is not spawned inside another planet
+        for (int i = 0; i < spawnPosition.Length; i++)
+        {
+            if (Vector3.Distance(randomPosition, spawnPosition[i]) < 10)
+            {
+                randomPosition = new Vector3(Random.Range(-spawnRadius, spawnRadius), 0, Random.Range(-spawnRadius, spawnRadius)) + transform.position;
+            }
+        }
 
-        // Set the planet's position to a random position calculated using the planet spawner position and the spawn radius
-        Vector3 minSpawnRadius = transform.position * 20f;
-        Vector3 maxSpawnRadius = transform.position * spawnRadius;
+        planet.transform.position = randomPosition;
 
-        planet.transform.position = new Vector3(Random.Range(minSpawnRadius.x, maxSpawnRadius.x), 0, Random.Range(minSpawnRadius.z, maxSpawnRadius.z));
+        // add the planet position to the array
+        for (int i = 0; i < spawnPosition.Length; i++)
+        {
+            if (spawnPosition[i] == Vector3.zero)
+            {
+                spawnPosition[i] = randomPosition;
+                break;
+            }
+        }
 
         // Activate the planet
         planet.SetActive(true);
     }
 
+
+    void OnDrawGizmos ()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
+    }
 
 
 

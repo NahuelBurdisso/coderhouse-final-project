@@ -4,40 +4,52 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float throttleForce = 10f;
+    public float throttleForce = 5f;
+    public float timeToThrottle = 0.5f;
     public ParticleSystem Explosion;
     public ParticleSystem Trail;
 
     private Rigidbody _rigidBody;
 
+    private MeshCollider _meshCollider;
+
+    private bool _canThrottle = true;
+
+
+
     void Start () {
         _rigidBody = GetComponent<Rigidbody>();
+
+        _meshCollider = GetComponent<MeshCollider>();
+
+        // position the trail particle system directly where the spaceship mesh collider ends (in the back)
+        Trail.transform.position = _meshCollider.bounds.center + (_meshCollider.bounds.extents.z - 2) * transform.forward;
     }
 
-    void Update() {
+    void Update () {
+        // If the player presses the space bar, throttle the spaceship
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            Throttle();
+        }
 
-      if (Input.GetKeyDown(KeyCode.Space))
-      {
-        Trail.Play();
-        _rigidBody.AddForce(transform.forward * throttleForce, ForceMode.Impulse);
-      }
+        // get horizontal
+        float horizontalInput = Input.GetAxis("Horizontal");
+        if (horizontalInput != 0) {
+            _rigidBody.AddTorque(transform.up * horizontalInput * 0.5f, ForceMode.Acceleration);
+        }
 
-      float horizontalInput = Input.GetAxis("Horizontal");
-
-      if (horizontalInput != 0) {
-        _rigidBody.AddForce(transform.right * horizontalInput, ForceMode.Acceleration);
-        _rigidBody.AddTorque(transform.up * horizontalInput, ForceMode.Acceleration);
-      }
-      
     }
 
-    // When the user presses the spacebar apply a force to the spaceship to move it forward
-    void FixedUpdate()
-    {
-        // Rotate the spaceship to always face the direction of its velocity
-        if (_rigidBody.velocity.magnitude > 0.1f)
-        {
-            transform.rotation = Quaternion.LookRotation(_rigidBody.velocity);
+    void Throttle () {
+        // If the spaceship is not throttling, throttle it
+        if (_canThrottle) {
+            // Apply a force to the spaceship
+            _rigidBody.AddForce(transform.forward * throttleForce, ForceMode.Impulse);            
+            // Disable the throttle for a while
+            _canThrottle = false;
+            Invoke("EnableThrottle", timeToThrottle);
+
+            Trail.Play();
         }
     }
 
@@ -62,6 +74,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, _rigidBody.velocity * _rigidBody.mass * _rigidBody.drag);
       }
+    }
+
+    void EnableThrottle()
+    {
+      _canThrottle = true;
     }
 
 }
